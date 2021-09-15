@@ -1,8 +1,10 @@
-﻿#include <iostream>
+#include <iostream>
 #include <Windows.h>
 #include <cmath>
 
 using namespace std;
+
+const double eps = 0;
 
 int main()
 {
@@ -10,7 +12,7 @@ int main()
     SetConsoleCP(1251);
 
     double A_x, A_y, B_x, B_y, C_x, C_y;
-    cout << "Введите координаты трех точек на плоскости: " << endl;;
+    cout << "Введите координаты трех точек на плоскости: " << endl;
 
     cout << "A_x: ";
     cin >> A_x;
@@ -38,9 +40,14 @@ int main()
     sideBC = sqrt(pow(C_x - B_x, 2) + pow(C_y - B_y, 2));
     sideCA = sqrt(pow(A_x - C_x, 2) + pow(A_y - C_y, 2));
 
+    double cosA, cosB, cosC;
+    cosA = (pow(sideAB, 2) + pow(sideCA, 2) - pow(sideBC, 2)) / (2 * sideAB * sideCA);
+    cosB = (pow(sideBC, 2) + pow(sideAB, 2) - pow(sideCA, 2)) / (2 * sideBC * sideAB);
+    cosC = (pow(sideCA, 2) + pow(sideBC, 2) - pow(sideAB, 2)) / (2 * sideCA * sideBC);
+
     cout << sideAB << " " << sideBC << " " << sideCA << endl;
-    
-    if ((pow(sideAB, 2) + pow(sideBC, 2) < pow(sideCA, 2)) || (pow(sideBC, 2) + pow(sideCA, 2) < pow(sideAB, 2)) || (pow(sideCA, 2) + pow(sideAB, 2) < pow(sideBC, 2)))
+
+    if (((cosA < eps) && (cosB < eps) && (cosC < eps)))
     {
         cout << "Треугольник не остроугольный" << endl;
         return 0;
