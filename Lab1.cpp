@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const double eps = 0;
+const double eps = 1.0e-10;
 
 int main()
 {
@@ -29,7 +29,7 @@ int main()
     cout << "C_y: ";
     cin >> C_y;
 
-    if ((C_x - A_x) / (B_x - A_x) == (C_y - A_y) / (B_y - A_y))
+    if (((C_x - A_x) / (B_x - A_x) == (C_y - A_y) / (B_y - A_y)) || ((A_x == B_x) && (B_x == C_x) && (C_x == A_x)) || ((A_y == B_y) && (B_y == C_y) && (C_y == A_y)))
     {
         cout << "Все три точки лежат на одной прямой" << endl;
         return 0;
@@ -40,14 +40,16 @@ int main()
     sideBC = sqrt(pow(C_x - B_x, 2) + pow(C_y - B_y, 2));
     sideCA = sqrt(pow(A_x - C_x, 2) + pow(A_y - C_y, 2));
 
+    //cout << sideAB << " " << sideBC << " " << sideCA << endl;
+
     double cosA, cosB, cosC;
     cosA = (pow(sideAB, 2) + pow(sideCA, 2) - pow(sideBC, 2)) / (2 * sideAB * sideCA);
     cosB = (pow(sideBC, 2) + pow(sideAB, 2) - pow(sideCA, 2)) / (2 * sideBC * sideAB);
     cosC = (pow(sideCA, 2) + pow(sideBC, 2) - pow(sideAB, 2)) / (2 * sideCA * sideBC);
 
-    cout << sideAB << " " << sideBC << " " << sideCA << endl;
+    //cout << cosA << " " << cosB << " " << cosC << endl;
 
-    if (((cosA < eps) && (cosB < eps) && (cosC < eps)))
+    if ((((cosA - eps) <= 0) || ((cosB - eps) <= 0) || ((cosC - eps) <= 0)))
     {
         cout << "Треугольник не остроугольный" << endl;
         return 0;
